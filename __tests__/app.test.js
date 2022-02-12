@@ -5,6 +5,7 @@ const app = require('../lib/app');
 
 jest.mock('../lib/utils/github');
 
+const agent = request.agent(app);
 
 describe('Gitty Routes', () => {
   beforeEach(() => {
@@ -38,6 +39,17 @@ describe('Gitty Routes', () => {
     });
   });
 
+  it('posts a post for user', async () => {
+    const postSecret = await agent.post('/api/v1/github/posts').send({
+      message:'I am looking for the one ring, lost it in an unfornutate event'
+    });
+    expect(postSecret.body).toEqual({
+      postId: expect.any(String),
+      message:'I am looking for the one ring, lost it in an unfornutate event',
+      createdAt: expect.any(String),
+      userId: expect.any(String),
+    });
+  });
 
 
 
