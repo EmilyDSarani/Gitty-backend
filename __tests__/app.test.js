@@ -64,4 +64,18 @@ describe('Gitty Routes', () => {
     expect(req.body).toEqual([]);
   });
 
+  it.skip('show signed out message', async () => {
+    const agent = request.agent(app);
+    const res = await agent.delete('/api/v1/github').send({
+      id: expect.any(String),
+      username: 'Sauron_Number_One',
+      email: 'eye.sauron@mordor.com',
+      avatar: expect.any(String),
+      iat: expect.any(Number),
+      exp: expect.any(Number),
+    })
+    expect(res.body).toEqual({ success:true, 
+      message: 'Signed Out--You Passed!' });
+  });
+
 });
