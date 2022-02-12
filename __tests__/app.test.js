@@ -40,8 +40,12 @@ describe('Gitty Routes', () => {
   });
 
   it('posts a post for user', async () => {
-    const postSecret = await agent.post('/api/v1/github/posts').send({
-      message:'I am looking for the one ring, lost it in an unfornutate event'
+    const user = await agent
+      .get('/api/v1/github/login/callback?code=19')
+      .redirects(1);
+    const postSecret = await agent.post('/api/v1/posts').send({
+      message:'I am looking for the one ring, lost it in an unfornutate event',
+      userId: user.body.id
     });
     expect(postSecret.body).toEqual({
       postId: expect.any(String),
