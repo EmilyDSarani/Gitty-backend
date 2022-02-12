@@ -22,6 +22,21 @@ describe('Gitty Routes', () => {
     );
   });
 
+  it('should login and redirect users', async () => {
+    const req = await request
+      .agent(app)
+      .get('/api/v1/github/login/callback?code=19')
+      .redirects(1);
+    
+    expect(req.body).toEqual({
+      id: expect.any(String),
+      username: 'Sauron_Number_One',
+      email: 'eye.sauron@mordor.com',
+      avatar: expect.any(String),
+      iat: expect.any(Number),
+      exp: expect.any(Number),
+    });
+  });
 
 
 
